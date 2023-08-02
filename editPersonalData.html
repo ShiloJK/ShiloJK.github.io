@@ -341,6 +341,7 @@
                     dailyTravelPayment: travelPayment,
                     dailySalarySupplement: salarySupplement
                 }
+                
 
 
                 if (oldKey != userName) {
@@ -364,7 +365,7 @@
                     removeValueFromStorage()
                 }
 
-
+                sessionStorage.setItem("userName", userName);
                 // המרת מערך לשפה שהאחסון המקומי יודע לקרוא
                 const jsonArray = JSON.stringify(users);
                 // ואז שמירת המערך שהומרה לשפת האחסון לתוך אחסון הדפדפן
