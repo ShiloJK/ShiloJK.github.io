@@ -391,7 +391,7 @@
 
             })
 
-            const url = `tab.html?result=${result}&sumSalary=${salary}&sumHours=${hours}&hours100=${hoursRegularHours}&hours125=${hoursOneHundredAndTwentyFiveBonus}&hours150=${hoursOneHundredAndFiftyBonus}&sum100=${sumRegularHours}&sum125=${sumOneHundredAndTwentyFiveBonus}&sum150=${sumOneHundredAndFiftyBonus}&start=${startDate}&end=${endDate}&shifts=${filterShifts}`;
+            const url = `tab.html?result=${result}`;
             window.location.href = url
 
         });
@@ -531,7 +531,8 @@
                     })
                 }
                 else if (answer == "Site") {
-                    const url = `paySlip.html?date=${dateForSlip}&salary=${salary}&hours=${hours}&hours100=${hoursRegularHours}&hours125=${hoursOneHundredAndTwentyFiveBonus}&hours150=${hoursOneHundredAndFiftyBonus}&sum100=${sumRegularHours}&sum125=${sumOneHundredAndTwentyFiveBonus}&sum150=${sumOneHundredAndFiftyBonus}&result=${slipResult}&length=${slipResult.length}`;
+                    const urls = `paySlip.html?date=${dateForSlip}&salary=${salary}&hours=${hours}&hours100=${hoursRegularHours}&hours125=${hoursOneHundredAndTwentyFiveBonus}&hours150=${hoursOneHundredAndFiftyBonus}&sum100=${sumRegularHours}&sum125=${sumOneHundredAndTwentyFiveBonus}&sum150=${sumOneHundredAndFiftyBonus}&result=${slipResult}&length=${slipResult.length}`;
+                window.location.href = urls
                 }
                 else {
                     alert("Please choose how to view the pay slip by email or on the website")
