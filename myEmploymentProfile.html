@@ -79,6 +79,12 @@
             width: 65%;
             border-radius: 50%;
             top: 60px;
+            min-width: 65%;
+            max-width: 65%;
+            min-height: 20%;
+            max-height: 20%;
+            height: auto;
+            display: block;
         }
 
         #h2 {
@@ -175,11 +181,15 @@
             window.location.href = 'editEmploymentProfile.html';
         })
 
-        document.getElementById("Company Name").innerHTML = " " + users[user].companyName || ' ' 
-        document.getElementById("Job Title").innerHTML = " " + users[user].jobTitle || ' '
-        document.getElementById("Hourly Wage").innerHTML = " " + users[user].hourlyWage || ' '
-        document.getElementById("Daily Travel Payment").innerHTML = " " + users[user].dailyTravelPayment || ' '
-        document.getElementById("Daily Salary Supplement").innerHTML = " " + users[user].dailySalarySupplement || ' ' 
+        if(users[user].companyName == undefined) {
+            users[user].companyName = ''
+        }
+
+        document.getElementById("Company Name").innerHTML =  users[user].companyName || ' ' 
+        document.getElementById("Job Title").innerHTML = users[user].jobTitle || ' '
+        document.getElementById("Hourly Wage").innerHTML = users[user].hourlyWage || ' '
+        document.getElementById("Daily Travel Payment").innerHTML = users[user].dailyTravelPayment || ' '
+        document.getElementById("Daily Salary Supplement").innerHTML = users[user].dailySalarySupplement || ' ' 
 
      
     </script>

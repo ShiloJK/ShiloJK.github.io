@@ -180,6 +180,16 @@
         ;
     }
 
+    .column6 {
+        width: -5px;
+        ;
+    }
+
+    .column10 {
+
+        right: 20x;
+    }
+
     @media screen and (max-width:992px) {
         table {
             display: block
@@ -200,61 +210,416 @@
             font-size: 12px
         }
     }
+
+    #edit {
+        padding: 12px 20px;
+        color: rgb(10, 119, 26);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #ffffff;
+    }
+
+    #edit:hover {
+        outline: none;
+        background-color: rgb(10, 119, 26);
+        color: #ffffff;
+    }
+
+    #delete {
+        padding: 12px 20px;
+        color: rgb(223, 14, 14);
+        background-color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #delete:hover {
+        outline: none;
+        background-color: rgb(223, 14, 14);
+        color: #ffffff;
+    }
+
+    #close,
+    #yes {
+        padding: 12px 20px;
+        color: #ffffff;
+        background-color: rgb(223, 14, 14);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        left: 28%;
+    }
+
+
+
+    .modal {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        background-color: #ffffff;
+        place-items: center;
+        position: fixed;
+    }
+
+
+    input {
+        width: 76%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: medium;
+        position: relative;
+        left: 7.5%;
+    }
+
+    label {
+        position: relative;
+        left: 40%;
+    }
+
+    h2 {
+        position: relative;
+        left: 35.5%;
+    }
+
+    #update {
+        position: relative;
+        left: 11%;
+    }
+
+
+    input[type="datetime-local"] {
+        border-radius: 10px;
+        box-shadow: 0px 2px 8px rgba(196, 76, 76, 0.1);
+        outline: none;
+        transition: box-shadow 0.3s ease;
+    }
+
+    input[type="datetime-local"]:hover {
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    input[type="datetime-local"]:focus {
+        box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    button {
+        padding: 12px 20px;
+        background-color: #122741;
+        color: white;
+        border: none;
+        border-radius: 5px;
+
+
+    }
+
+    button:focus {
+        outline: none;
+    }
+
+    hr {
+        position: relative;
+        width: 120px;
+        left: 0%;
+    }
+
+    #alertModal,
+    #ask {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 25px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 350px;
+        background-color: #ffffff;
+        place-items: center;
+        position: fixed;
+        height: auto + 20px;
+    }
+    .modal-content {
+            
+            transform: translateY(-1000%);
+            animation: modal-appear 0.5s forwards;
+        }
+
+        @keyframes modal-appear {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+
+    #Notice {
+        position: relative;
+        left: 38%;
+    }
+
+    #hrNotice {
+        position: relative;
+        width: 120px;
+        left: -2%;
+    }
+
+    #alert {
+        position: relative;
+        left: 12%;
+    }
+
+    #closeBtn {
+
+        padding: 12px 20px;
+        background-color: #122741;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        left: 36%;
+    }
+
+    #closeBtn:focus {
+        outline: none;
+    }
+
+    #yes {
+        position: relative;
+        left: 180px;
+    }
+
+    #no {
+        position: relative;
+        right: -38px;
+    }
 </style>
 
-<body>
 
-    <body>
-        <div class="container">
-            <table>
-                <thead>
-                    <tr class="table100-head">
-                        <th class="column1">Date</th>
-                        <th class="column2">Hours 100%</th>
-                        <th class="column3">Hours 125%</th>
-                        <th class="column4">Hours 150%</th>
-                        <th class="column5">Rate 100%</th>
-                        <th class="column6">Rate 125%</th>
-                        <th class="column7">Rate 150%</th>
-                        <th class="column8">Total Hours</th>
-                        <th class="column9">Total Salary</th>
-                    </tr>
-                </thead>
-                <tbody id="result">
-                </tbody>
-                <tbody id="summary">
-                </tbody>
-            </table>
-        </div>
-        <div class="report">
+<body id="b">
+    <div class="container">
+        <table id="container">
+            <thead>
+                <tr class="table100-head">
+                    <th class="column1">Date</th>
+                    <th class="column2">Hours 100%</th>
+                    <th class="column3">Hours 125%</th>
+                    <th class="column4">Hours 150%</th>
+                    <th class="column5">Rate 100%</th>
+                    <th class="column6">Rate 125%</th>
+                    <th class="column7">Rate 150%</th>
+                    <th class="column8">Total Hours</th>
+                    <th class="column9">Total Salary</th>
+                    <th class="column10">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="result">
 
+            </tbody>
+            <tbody id="summary">
+            </tbody>
+        </table>
+        <div id="editModal" style="display: none;" class="modal">
+            <br>
+            <h2>Edit Shift</h2>
+            <hr>
+            <br><br>
+            <label for="startTime"><b>Start Date</b></label>
+            <input type="datetime-local" id="startTime">
+            <br><br>
+            <label for="endTime"><b>End Date</b></label>
+            <input type="datetime-local" id="endTime">
+            <br><br>
+            <button id="update">Update Shift</button>
+            <button id="close" onclick="closeModelShifts()">Close</button>
+            <br><br>
         </div>
+        
+        <div id="alertModal" style="display: none;">
+            <div class="modal-content">
+            <br>
+            <h2 id="Notice">Notice</h2>
+            <hr id="hrNotice">
+            <br>
+            <b id="alert"></b>
+            <br><br>
+        </div>
+        </div>
+        <div id="ask" style="display: none;">
+            <div class="modal-content">
+                <br>
+                <h2 id="Notice">Notice</h2>
+                <hr id="hrNotice">
+                <br>
+                <b id="alert">Are you sure you want to delete the shift?</b>
+                <br><br>
+                <button id="yes">Yes</button><button id="no" onclick="closeQusation()">No</button>
+                <br><br>
+            </div>
+        </div>
+
         <script>
             const users = JSON.parse(localStorage.getItem('data')) || [];
             const userName = sessionStorage.getItem("userName");
             const shifts = JSON.parse(localStorage.getItem(userName))
-            var user = users.findIndex(function(u) {
+            var user = users.findIndex(function (u) {
                 return u.userName == userName;
             })
-            const urlParams = new URLSearchParams(window.location.search);
-            const result = urlParams.get('result');
-            document.getElementById("result").innerHTML = result.replaceAll(",", "")
-            const salary = urlParams.get('sumSalary');
-            const hours = urlParams.get('sumHours');
-            const hoursRegularHours = urlParams.get('hours100');
-            const hoursOneHundredAndTwentyFiveBonus = urlParams.get('hours125');
-            const hoursOneHundredAndFiftyBonus = urlParams.get('hours150');
-            const sumRegularHours = urlParams.get('sum100');
-            const sumOneHundredAndTwentyFiveBonus = urlParams.get('sum125');
-            const sumOneHundredAndFiftyBonus = urlParams.get('sum150');
-            const startDate = urlParams.get('start');
-            const endDate = urlParams.get('end');
-            const filterShifts = urlParams.get('shifts');
+            var existingShifts = JSON.parse(localStorage.getItem(userName)) || [];
+            var filterShifts = JSON.parse(sessionStorage.getItem(userName))
+
+            //const urlParams = new URLSearchParams(window.location.search);
+            //const result = urlParams.get('result');
+            var result = JSON.parse(localStorage.getItem(userName + "result"))
+
+            document.getElementById("result").innerHTML = result.join(" ");
+
+            document.addEventListener("DOMContentLoaded", function () {
+                var tdElements = document.querySelectorAll(".number");
+                tdElements.forEach(function (td) {
+                    var value = parseFloat(td.textContent);
+                    var formattedValue = value.toFixed(2);
+                    td.textContent = formattedValue;
+                });
+            });
+            function closeQusation() {
+                document.getElementById("ask").style.display = "none";
+            }
+
+
+            function closeModel() {
+                document.getElementById("alertModal").style.display = "none";
+            }
+            function displayAlert(alert) {
+                document.getElementById("alertModal").style.display = "block";
+                document.getElementById("alert").innerHTML = alert
+            }
+
+            function closeModelShifts() {
+                document.getElementById("editModal").style.display = "none";
+            }
+
+            function deleteRow(counter) {
+                document.getElementById("ask").style.display = "block";
+                document.getElementById("yes").addEventListener('click', function () {
+                    document.getElementById("ask").style.display = "none";
+                    displayAlert("The shift has been successfully deleted")
+                    existingShifts.splice(counter, 1);
+                    localStorage.setItem(userName, JSON.stringify(existingShifts));
+                    setTimeout(function () {
+                        window.location.href = "salaryCalculation.html"
+                    }, 2500);
+                })
+            }
+
+            function editRow(counter) {
+                document.getElementById("editModal").style.display = "block";
+                var lastDate = filterShifts[counter].startDate
+                var indexShifts = shifts.findIndex(function (d) {
+                    return lastDate == d.startDate
+                })
+
+
+
+
+
+
+
+                document.getElementById("update").addEventListener("click", function () {
+                    const startDate = new Date(document.getElementById("startTime").value);
+                    const endDate = new Date(document.getElementById("endTime").value);
+                    var differenceInMillisecs = endDate - startDate;
+                    if (differenceInMillisecs < 0) {
+                        displayAlert("End time must be after the start time!");
+                    } else {
+                        var differenceInMinutes = differenceInMillisecs / (1000 * 60);
+                        differenceInMinutes = differenceInMinutes / 60;
+                        var hours = Math.floor(differenceInMinutes);
+                        var minutes = Math.round((differenceInMinutes - hours) * 60);
+                        var result = Number(hours + "." + minutes);
+                        var count = result;
+
+                        if (count >= 12) {
+                            count = result - 12;
+                            shift = {
+                                startDate: startDate,
+                                OneHundredAndFiftyBonus: count,
+                                OneHundredAndTwentyFiveBonus: 4,
+                                regularHours: 8
+                            };
+                        } else if (count > 8 && count < 12) {
+                            count = result - 8;
+                            shift = {
+                                startDate: startDate,
+                                OneHundredAndFiftyBonus: 0,
+                                OneHundredAndTwentyFiveBonus: count,
+                                regularHours: 8
+                            };
+                        } else {
+                            shift = {
+                                startDate: startDate,
+                                OneHundredAndFiftyBonus: 0,
+                                OneHundredAndTwentyFiveBonus: 0,
+                                regularHours: count
+                            };
+
+                        }
+
+                        shift.startDate = shift.startDate.toISOString();
+                        console.log(shift)
+                        // דוחף משמרת למערך משמרות לפי שם משתמש
+                        existingShifts[indexShifts] = shift;
+                        console.log(existingShifts)
+
+
+
+                        function sortByStartDate(eventsArray) {
+                            return eventsArray.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+                        }
+
+                        // קריאה לפונקציה והדפסת המערך הממוין
+                        var existing = sortByStartDate(existingShifts);
+                        console.log(existing)
+
+                        // שומר באחסון מקומי על בסיס שם המשתמש
+
+                        displayAlert("The shift has been successfully updated");
+                        localStorage.setItem(userName, JSON.stringify(existingShifts));
+                        setTimeout(function () {
+                            window.location.href = "salaryCalculation.html"
+                        }, 2500);
+                    }
+                })
+            }
 
 
         </script>
 
 
-    </body>
+</body>
 
 </html>

@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" href="4915051.png">
     <title>Shift Management</title>
     <style>
-        
         body {
             background-image: url("https://images.pexels.com/photos/164005/pexels-photo-164005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
             font-family: Arial, Helvetica, sans-serif;
@@ -62,12 +61,11 @@
             border: none;
             cursor: pointer;
             width: 100%;
-            opacity: 0.9;
+
+            border-radius: 5px;
         }
 
-        .registerbtn:hover {
-            opacity: 1;
-        }
+
 
         .signin {
             background-color: #f1f1f1;
@@ -78,13 +76,13 @@
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 10px;
             box-sizing: border-box;
             margin-top: 6px;
             margin-bottom: 16px;
         }
 
-      
+
         input[type=submit] {
             background-color: #122741;
             color: white;
@@ -110,7 +108,7 @@
             font-size: 18px;
         }
 
-        
+
         .valid {
             color: #122741;
         }
@@ -121,7 +119,7 @@
             content: "✔";
         }
 
-        
+
         .invalid {
             color: red;
         }
@@ -185,7 +183,7 @@
             font-size: medium;
             padding: 12px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 15px;
 
         }
 
@@ -200,7 +198,89 @@
             font-size: medium;
             padding: 12px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 15px;
+        }
+
+        .modal {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 25px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 380px;
+            background-color: #ffffff;
+            place-items: center;
+            position: fixed;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+
+        .modal-content {
+
+            transform: translateY(-1000%);
+            animation: modal-appear 0.5s forwards;
+        }
+
+        @keyframes modal-appear {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        #Notice {
+            position: relative;
+            left: 38%;
+        }
+
+        #hrNotice {
+            position: relative;
+            width: 120px;
+            left: -2%;
+        }
+
+        #alert {
+            position: relative;
+            left: 5%;
+        }
+
+        #closeBtn {
+            width: auto;
+            padding: 12px 20px;
+            background-color: #122741;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            left: 36%;
+        }
+
+        #closeBtn:focus {
+            outline: none;
+        }
+
+        img.avatar {
+            position: absolute;
+            width: 20%;
+            border-radius: 50%;
+            top: 550px;
+            right: 40%;
+            min-width: 20%;
+            max-width: 20%;
+            min-height: 10%;
+            max-height: 10%;
+            height: auto;
+            display: block;
         }
     </style>
 </head>
@@ -224,6 +304,7 @@
             <label for="file"><b>Profile Picture</b></label> <br><br>
             <input type="file" id="file-input" name="file-input" />
             <label id="file-input-label" for="file-input">Select a File</label>
+            <img src="img_avatar2.png" id="picture" alt="Avatar" class="avatar">
             <br><br>
             <label for="email"><b>Email</b></label>
             <input type="text" placeholder="Enter Email" name="email" id="email" required>
@@ -252,6 +333,19 @@
                 <p>Already have an account? <a href="index.html">Sign in</a>.</p>
             </div>
     </div>
+    <div id="editModal" style="display: none;" class="modal">
+        <div class="modal-content">
+            <br>
+            <h2 id="Notice">Notice</h2>
+            <hr id="hrNotice">
+            <br>
+            <b id="alert"></b>
+            <br><br>
+            <button id="closeBtn" onclick="closeModel()">Approval</button>
+            <br><br>
+        </div>
+    </div>
+
 
 
     <script>
@@ -286,7 +380,7 @@
 
 
 
-   
+
         myInput.onkeyup = function () {
 
             var lowerCaseLetters = /[a-z]/g;
@@ -320,12 +414,37 @@
 
         const users = JSON.parse(localStorage.getItem('data')) || [];
 
+        function displayAlert(alert) {
+            document.getElementById("editModal").style.display = "block";
+            document.getElementById("alert").innerHTML = alert
+        }
+
+        function closeModel() {
+            document.getElementById("editModal").style.display = "none";
+        }
+
+
+        var imageInput = document.getElementById("file-input");
+        const previewImage = document.getElementById('picture');
+        imageInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+
         document.getElementById("register").addEventListener('click', function () {
             const firstName = document.getElementById("First Name").value;
             const lastName = document.getElementById("Last Name").value;
             const age = document.getElementById("Age").value;
             const userName = document.getElementById("User Name").value;
-            var picture = document.getElementById("file-input").value;
+            var picture = document.getElementById("file-input").value || "img_avatar2.png";
             picture = picture.replace(/^.*\\/, "")
             const emailUser = document.getElementById("email").value;
             const password = document.getElementById("psw").value;
@@ -334,12 +453,13 @@
             const theCorrectLanguage = /^[A-Za-z]+$/;
             const userNameResult = theCorrectLanguage.test(userName);
             // משתנה עזר שמכיל ביטוי של כל התווים באנגלית ומספרים
-            const englishCharacters = /[A-Za-z]/
+            const englishCharacters = /^[A-Za-z0-9]+$/;
             // משתנה עזר שמכיל תווים נומריים 0-9 כדי לאתר את התווים במשתנה שעליו נעשה טסט
             const containsNumber = /\d/;
             // ביצוע טסט לסיסמה לאתר תווים באנגלית ואם יהיה תווים בשפה אחרת חוץ מאנגלית המשתנה יהיה שווה לשקר ואז נוכל לעשות עליו תנאי
             const passwordResultIsThereEng = englishCharacters.test(password);
             // ביצוע טסט לסיסמה לאתר תווים מספרים בתוך השדה ואם לא יהיה מספר בכלל המשתנה יהיה שווה לשקר ואז נוכל לעשות עליו תנאי
+
             const passwordResultIsThereNum = containsNumber.test(password);
             // משתנה עזר שמכיל תווים בכתובת אימיל תקין
             const correctEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -351,33 +471,37 @@
             });
             // אם הפונקציה החזירה אמת זה אומר שכן קיים שם משתמש בשם שנבחר ולכן תקפוץ מודעת שגיאה
             if (isUserExist == true) {
-                alert("Username already exists");
+
+                displayAlert("Username is already exists in the system");
             }
             // בתנאי קיים התוצאה של הטסט לאיתור תווים באנגלית בתוך השם משתמש ואם התוצאה שונה מאמת תקפוץ מודעת שגיאה גם על שם המשתמש להיות מורכב ביותר מ-4 תווים אחרת מודעת שגיאה תקפוץ
             else if (userNameResult != true || userName.length < 4) {
-                alert("Invalid username ! Please note: Username must only be in English and over 4 characters");
+                displayAlert("Username must only be in English and over 4 characters");
             }
             // אם השם פרטי או השם משפחה קטנים מ-2 תווים מודעת שגיאה תקפוץ
             else if (firstName.length < 2 || lastName.length < 2) {
-                alert("Please note: first name and last name must contain more than 2 characters");
+                displayAlert("Please note: first name and last name must contain more than 2 characters");
             }
             // אם תוצאת טסט תקינות כתובת מייל על בסיס תווים שכתובת מייל אמורה להכיל תיהיה שונה מאמת אז מודעת שגיאה תקפוץ
             else if (emailResult != true) {
-                alert("Invalid email address");
+                displayAlert("Invalid email address");
             }
             // אם הסיסמה הראשונה שהוקשה שונה מהשניה אז תקפוץ מודעת שגיאה
             else if (password != testRepeatPassword) {
-                alert("The passwords do not match");
+                displayAlert("The passwords do not match");
             }
             // התנאי כולל אם אין תווים באנגלית בסיסמה על בסיס הטסט לאיתור תווים באנגלית בשדה או שאין תווים נומריים בשדה הסיסמה על בסיס טסט לאיתור מספרים או שהסיסמה קטנה מ-6 תאים אז תקפוץ מודעת שגיאה
             else if (passwordResultIsThereEng != true) {
-                alert("Invalid password! Please note: the password must consist of letters and numbers.");
+                displayAlert("The password must include English letters, numbers and at least 6 characters");
+                console.log("שגיאה בגלל אנגלית")
             }
             else if (passwordResultIsThereNum != true) {
-                alert("Invalid password! Please note: the password must consist of letters and numbers.");
+                displayAlert("The password must include English letters, numbers and at least 6 characters");
+                console.log("שגיאה בגלל מספרים")
             }
             else if (password.length < 6) {
-                alert("Invalid password! Please note: the password must contain at least 6 characters.");
+                displayAlert("The password must include English letters, numbers and at least 6 characters");
+                console.log("שגיאה בגלל תווים")
             }
             // users אם שום תנאי לא מתקיים כל הערכים נדחפיים לתוך אוביקט שנמצא במערך בשם 
             else {
@@ -388,7 +512,8 @@
                     picture: picture,
                     email: emailUser,
                     age: Math.floor(age),
-                    password: password
+                    password: password,
+                    //hourlyWage: 29.12
                 });
                 // המרת מערך משתמשים לשפה שהאחסון המקומי יודע לקרוא
                 const jsonArray = JSON.stringify(users);
@@ -399,6 +524,9 @@
                 // ואז רק אני מנתב אותו לתוך האתר
                 window.location.href = "mainMenu.html";
             }
+
+
+
         });
     </script>
 </body>

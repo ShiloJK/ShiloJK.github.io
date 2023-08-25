@@ -12,19 +12,6 @@
         background-image: url("https://images.pexels.com/photos/164005/pexels-photo-164005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
         font-family: Arial, Helvetica, sans-serif;
     }
-    .custom-alert {
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        /* צבע הרקע */
-        .custom-alert-success {
-            background-color: #122741;
-        }
-
 
     #answer {
         width: 10%;
@@ -66,8 +53,16 @@
     }
 
     img.avatar {
-        width: 40%;
+        position: relative;
+        width: 130px;
         border-radius: 50%;
+    right: -135px;
+        height: auto;
+        display: block;
+        min-width: 130px;
+            max-width: 130px;
+            max-height: 130px;
+            min-height: 130px;
     }
 
     .container {
@@ -94,12 +89,12 @@
         background-color: rgba(0, 0, 0, 0.4);
         padding-top: 60px;
         border-radius: 10px;
-        
+
     }
 
-   
+
     .modal-content {
-        
+
         overflow: auto;
         background-color: white;
         margin: 5% auto 15% auto;
@@ -161,7 +156,7 @@
         }
     }
 
-   
+
     @media screen and (max-width: 300px) {
         span.psw {
             display: block;
@@ -225,6 +220,61 @@
         background-color: #ddd;
         outline: none;
     }
+
+    #editModal {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 350px;
+        background-color: #ffffff;
+        place-items: center;
+        position: fixed;
+        height: auto;
+
+    }
+
+    #Notice {
+        position: relative;
+        left: 38%;
+    }
+
+    #hrNotice {
+        position: relative;
+        width: 120px;
+        left: -2%;
+    }
+
+    #alert {
+        position: relative;
+        left: 7%;
+    }
+
+    #closeBtn {
+        width: auto;
+        padding: 12px 20px;
+        background-color: #122741;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        left: 31%;
+    }
+
+    #closeBtn:focus {
+        outline: none;
+    }
 </style>
 </head>
 
@@ -274,6 +324,22 @@
                     <span class="psw">Forgot <a href="resetPassword.html">password?</a></span>
                 </div>
             </form>
+
+
+
+            <div id="editModal" style="display: none;">
+                <br>
+                <h2 id="Notice">Notice</h2>
+                <hr id="hrNotice">
+                <br>
+                <b id="alert"></b>
+                <br><br>
+                <button id="closeBtn" onclick="closeModel()">Approval</button>
+                <br><br>
+            </div>
+
+
+
         </div>
         <script>
 
@@ -294,10 +360,10 @@
             const image = `<img src="img_avatar2.png" id="picture" alt="Avatar" class="avatar">`
 
 
-           
+
             var modal = document.getElementById('id01');
 
-          
+
             window.onclick = function (event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
@@ -307,15 +373,25 @@
             const users = JSON.parse(localStorage.getItem('data')) || [];
 
 
+            function displayAlert(alert) {
+                document.getElementById("editModal").style.display = "block";
+                document.getElementById("alert").innerHTML = alert
+                setTimeout(function () {
+                    document.getElementById("editModal").style.display = "none";
+                }, 5000);
+            }
+
+            function closeModel() {
+                document.getElementById("editModal").style.display = "none";
+            }
 
             var userInput = document.getElementById("uname");
-
             var profileImage = document.getElementById("picture");
 
             userInput.addEventListener("input", function () {
                 var userNameForPic = userInput.value;
 
-                
+
                 var user = users.findIndex(function (u) {
                     return u.userName == userNameForPic;
                 });
@@ -349,7 +425,7 @@
                 });
 
                 if (index == -1 || password != users[index].password) {
-                    alert("Wrong username or password!");
+                    displayAlert("Wrong username or password!");
 
                     if (chance > 2) {
                         document.getElementById("questionPage").innerHTML = questionPage;
@@ -375,6 +451,7 @@
                     sessionStorage.setItem("userName", userName);
                     window.location.href = "mainMenu.html"
                 }
+
             });
         </script>
 

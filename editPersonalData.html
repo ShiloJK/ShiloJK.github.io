@@ -55,7 +55,7 @@
             padding: 16px 20px;
             margin: 8px 0;
             width: 100%;
-            opacity: 0.9;
+
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -128,7 +128,7 @@
         }
 
         #file-input-label {
-            width: 135px;
+            width: 94px;
             margin: 5px 0 22px 0;
             display: inline-block;
             border: none;
@@ -138,12 +138,12 @@
             font-size: medium;
             padding: 12px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 15px;
 
         }
 
         #file-input-label:hover {
-            width: 135px;
+            width: 94px;
             margin: 5px 0 22px 0;
             display: inline-block;
             border: none;
@@ -153,7 +153,7 @@
             font-size: medium;
             padding: 12px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 15px;
         }
 
         #hr {
@@ -203,6 +203,87 @@
             color: #ffffff;
             outline: none;
         }
+
+
+        .modal {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 25px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 380px;
+            background-color: #ffffff;
+            place-items: center;
+            position: fixed;
+        }
+
+        .modal-content {
+
+            transform: translateY(-1000%);
+            animation: modal-appear 0.5s forwards;
+        }
+
+        @keyframes modal-appear {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        #Notice {
+            position: relative;
+            left: 38%;
+        }
+
+        #hrNotice {
+            position: relative;
+            width: 120px;
+            left: -2%;
+        }
+
+        #alert {
+            position: relative;
+            left: 5%;
+        }
+
+        #closeBtn {
+            width: auto;
+            padding: 12px 20px;
+            background-color: #122741;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            left: 36%;
+        }
+
+        #closeBtn:focus {
+            outline: none;
+        }
+
+
+        img.avatar {
+            position: absolute;
+            width: 20%;
+            border-radius: 50%;
+            top: 500px;
+            right: 40%;
+            min-width: 20%;
+            max-width: 20%;
+            min-height: 10%;
+            max-height: 10%;
+            height: auto;
+            display: block;
+        }
     </style>
 </head>
 
@@ -223,9 +304,11 @@
         <label for="Age"><b>Age</b></label>
         <input id="Age" type="range" min="18" max="65" step="any" required />
         <b>Value: <output id="value"></output></p>
+            <label for="file"><b>Profile Picture</b></label> <br><br>
             <input type="file" id="file-input" name="file-input" />
             <label id="file-input-label" for="file-input">Select a File</label>
-            <br>
+            <img src="img_avatar2.png" id="picture" alt="Avatar" class="avatar">
+            <br><br>
             <label for="email"><b>Email</b></label>
             <input type="text" placeholder="Enter Email" name="email" id="email" required> <br>
             <button id="update" type="submit" class="registerbtn">Update</button>
@@ -239,6 +322,19 @@
                 <button id="cancelDeleteButton">Cancel</button>
             </div>
 
+            <div id="editModal" style="display: none;" class="modal">
+                <div class="modal-content">
+                    <br>
+                    <h2 id="Notice">Notice</h2>
+                    <hr id="hrNotice">
+                    <br>
+                    <b id="alert"></b>
+                    <br><br>
+                    <button id="closeBtn" onclick="closeModel()">Approval</button>
+                    <br><br>
+                </div>
+            </div>
+
     </div>
 
 
@@ -246,6 +342,18 @@
         const users = JSON.parse(localStorage.getItem('data')) || [];
         const userName = sessionStorage.getItem("userName");
         const shifts = JSON.parse(localStorage.getItem(userName))
+        const container = document.getElementById('container');
+        let isExpanded = false;
+
+
+        function displayAlert(alert) {
+            document.getElementById("editModal").style.display = "block";
+            document.getElementById("alert").innerHTML = alert
+        }
+
+        function closeModel() {
+            document.getElementById("editModal").style.display = "none";
+        }
 
         var user = users.findIndex(function (u) {
             return u.userName == userName;
@@ -268,7 +376,7 @@
         document.getElementById("file-input").src = users[user].picture
 
 
-        const oldKey = users[user].userName;
+        const oldKey = sessionStorage.getItem("userName");
         const companyName = users[user].companyName
         const jobTitle = users[user].jobTitle
         const hourlyWage = users[user].hourlyWage
@@ -276,6 +384,21 @@
         const salarySupplement = users[user].dailySalarySupplement
         var oldPicture = users[user].picture
 
+        document.getElementById("picture").src = oldPicture
+
+        var imageInput = document.getElementById("file-input");
+        const previewImage = document.getElementById('picture');
+        imageInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
 
 
 
@@ -284,11 +407,21 @@
             const lastName = document.getElementById("Last Name").value;
             const age = document.getElementById("Age").value;
             const userName = document.getElementById("User Name").value;
+            const currentUser = sessionStorage.getItem("userName");
             const emailUser = document.getElementById("email").value;
             const password = users[user].password
             const testRepeatPassword = users[user].password
             var picture = document.getElementById("file-input").value;
             picture = picture.replace(/^.*\\/, "")
+
+
+            // אם יש משתמש שרוצה לשנות את שמו לשם משתמש שכבר קיים במערכת 
+            // להתייחס לזה !!
+            //
+            var result = users.findIndex(function (f) {
+                return userName == f.userName
+            })
+
 
 
 
@@ -308,17 +441,20 @@
             // ביצוע טסט על האיימל שאוזן כדי לבדוק האם הוא תקין על סמך המשתנה עזר
             const emailResult = correctEmail.test(emailUser);
 
+            if (currentUser != userName && result > -1) {
+                displayAlert("The username entered is already in use")
+            }
             // בתנאי קיים התוצאה של הטסט לאיתור תווים באנגלית בתוך השם משתמש ואם התוצאה שונה מאמת תקפוץ מודעת שגיאה גם על שם המשתמש להיות מורכב ביותר מ-4 תווים אחרת מודעת שגיאה תקפוץ
-            if (userNameResult != true || userName.length < 4) {
-                alert("Invalid username ! Please note: Username must only be in English and over 4 characters");
+            else if (userNameResult != true || userName.length < 4) {
+                displayAlert("Invalid username ! Please note: Username must only be in English and over 4 characters");
             }
             // אם השם פרטי או השם משפחה קטנים מ-2 תווים מודעת שגיאה תקפוץ
             else if (firstName.length < 2 || lastName.length < 2) {
-                alert("Please note: first name and last name must contain more than 2 characters");
+                displayAlert("Please note: first name and last name must contain more than 2 characters");
             }
             // אם תוצאת טסט תקינות כתובת מייל על בסיס תווים שכתובת מייל אמורה להכיל תיהיה שונה מאמת אז מודעת שגיאה תקפוץ
             else if (emailResult != true) {
-                alert("Invalid email address");
+                displayAlert("Invalid email address");
             }
 
 
@@ -341,7 +477,6 @@
                     dailyTravelPayment: travelPayment,
                     dailySalarySupplement: salarySupplement
                 }
-                
 
 
                 if (oldKey != userName) {
@@ -365,7 +500,7 @@
                     removeValueFromStorage()
                 }
 
-                sessionStorage.setItem("userName", userName);
+
                 // המרת מערך לשפה שהאחסון המקומי יודע לקרוא
                 const jsonArray = JSON.stringify(users);
                 // ואז שמירת המערך שהומרה לשפת האחסון לתוך אחסון הדפדפן
@@ -378,13 +513,14 @@
         const deleteAccountModal = document.getElementById('deleteAccountModal');
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
         const cancelDeleteButton = document.getElementById('cancelDeleteButton');
-    
+
         deleteAccountButton.addEventListener('click', () => {
             deleteAccountModal.style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
         });
 
         confirmDeleteButton.addEventListener('click', () => {
-            
+
             users.splice(user, 1);
             localStorage.removeItem(userName);
             // המרת מערך לשפה שהאחסון המקומי יודע לקרוא

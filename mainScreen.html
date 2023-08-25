@@ -65,7 +65,7 @@
         font-size: medium;
     }
 
-  
+
     input[type="datetime-local"] {
         border-radius: 10px;
         box-shadow: 0px 2px 8px rgba(196, 76, 76, 0.1);
@@ -83,7 +83,7 @@
 
 
 
-    
+
     button {
         padding: 12px 20px;
         background-color: #122741;
@@ -119,19 +119,93 @@
         background-color: #ff0015;
         color: #ffffff;
     }
+
     img.avatar {
         position: absolute;
         width: 65%;
         border-radius: 50%;
         top: 60px;
+        min-width: 65%;
+        max-width: 65%;
+        min-height: 20%;
+        max-height: 20%;
+        height: auto;
+        display: block;
     }
+
     #main {
         position: relative;
         top: -35px;
         left: 100px;
     }
 
+    .modal {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 25px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 350px;
+        background-color: #ffffff;
+        place-items: center;
+        position: fixed;
+        height: auto + 20px;
+    }
 
+    .modal-content {
+        transform: translateY(-1000%);
+        animation: modal-appear 0.5s forwards;
+    }
+
+    @keyframes modal-appear {
+        to {
+            transform: translateY(0);
+        }
+    }
+
+
+
+    #Notice {
+        position: relative;
+        left: 38%;
+        top: 0%;
+    }
+
+    #hrNotice {
+        position: relative;
+        width: 120px;
+        left: -2%;
+    }
+
+    #alert {
+        position: relative;
+        left: 9%;
+    }
+
+    #closeBtn {
+        width: auto;
+        padding: 12px 20px;
+        background-color: #122741;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        left: 36%;
+    }
+
+    #closeBtn:focus {
+        outline: none;
+    }
 </style>
 
 <body>
@@ -150,93 +224,117 @@
                 <h2>Add a shift</h2>
                 <b>Update your shift start and end time:</b>
                 <hr> <br><br>
-            <label for="start-time"><b>Start shift</b></label> <br><br>
-            <input type="datetime-local" id="startTime" name="start-time" required>
+                <label for="start-time"><b>Start shift</b></label> <br><br>
+                <input type="datetime-local" id="startTime" name="start-time" required>
 
-            <br><br>
+                <br><br>
 
-            <label for="end-time"><b>End shift</b></label><br><br>
-            <input type="datetime-local" id="endTime" name="end-time" required>
+                <label for="end-time"><b>End shift</b></label><br><br>
+                <input type="datetime-local" id="endTime" name="end-time" required>
 
-            <br><br>
+                <br><br>
 
-            <button type="button" id="button">Update</button> <br>
-        </div>
+                <button type="button" id="button">Update</button> <br>
+            </div>
         </form>
     </div>
+    <div id="editModal" style="display: none;" class="modal">
+        <div class="modal-content">
+            <br>
+            <h2 id="Notice">Notice</h2>
+            <hr id="hrNotice">
+            <br>
+            <b id="alert"></b>
+            <br><br><br>
+            <button id="closeBtn" onclick="closeModel()">Approval</button>
+            <br><br>
+        </div>
+    </div>
+
     <script>
-    const users = JSON.parse(localStorage.getItem('data')) || [];
-    const userName = sessionStorage.getItem("userName");
-    var profileImage = document.getElementById("picture");
-    var user = users.findIndex(function (u) {
-                    return u.userName == userName;
+        const users = JSON.parse(localStorage.getItem('data')) || [];
+        const userName = sessionStorage.getItem("userName");
+        var profileImage = document.getElementById("picture");
+        var user = users.findIndex(function (u) {
+            return u.userName == userName;
+        });
+
+        if (user > -1) {
+            profileImage.src = users[user].picture;
+        } else {
+            profileImage.src = "img_avatar2.png";
+        }
+
+        function displayAlert(alert) {
+            document.getElementById("editModal").style.display = "block";
+            document.getElementById("alert").innerHTML = alert
+        }
+
+        function closeModel() {
+            document.getElementById("editModal").style.display = "none";
+        }
+
+
+
+        document.getElementById("button").addEventListener("click", (e) => {
+            e.preventDefault();
+            const startDate = new Date(document.getElementById("startTime").value);
+            const endDate = new Date(document.getElementById("endTime").value);
+
+            var differenceInMillisecs = endDate - startDate;
+            console.log(differenceInMillisecs)
+            if (differenceInMillisecs <= 0 || isNaN(differenceInMillisecs)) {
+                displayAlert("Please enter a valid shift range !");
+
+            } else {
+                var differenceInMinutes = differenceInMillisecs / (1000 * 60);
+                differenceInMinutes = differenceInMinutes / 60;
+                var hours = Math.floor(differenceInMinutes);
+                var minutes = Math.round((differenceInMinutes - hours) * 60);
+                var result = Number(hours + "." + minutes);
+                var count = result;
+
+                if (count >= 12) {
+                    count = result - 12;
+                    shift = {
+                        startDate: startDate,
+                        OneHundredAndFiftyBonus: count,
+                        OneHundredAndTwentyFiveBonus: 4,
+                        regularHours: 8
+                    };
+                } else if (count > 8 && count < 12) {
+                    count = result - 8;
+                    shift = {
+                        startDate: startDate,
+                        OneHundredAndFiftyBonus: 0,
+                        OneHundredAndTwentyFiveBonus: count,
+                        regularHours: 8
+                    };
+                } else {
+                    shift = {
+                        startDate: startDate,
+                        OneHundredAndFiftyBonus: 0,
+                        OneHundredAndTwentyFiveBonus: 0,
+                        regularHours: count
+                    };
+                }
+
+                displayAlert("The shift has been successfully added");
+
+                const userName = sessionStorage.getItem("userName");
+                const index = users.findIndex(function (e) {
+                    return e.userName == userName;
                 });
 
-                if (user > -1) {
-                    profileImage.src = users[user].picture;
-                } else {
-                    profileImage.src = "img_avatar2.png";
-                }
-            
-    
+                // מבקש את המערך לפי שם המשתמש שלו
+                const existingShifts = JSON.parse(localStorage.getItem(userName)) || [];
+                // דוחף משמרת למערך משמרות לפי שם משתמש
+                existingShifts.push(shift);
+                // שומר באחסון מקומי על בסיס שם המשתמש
+                localStorage.setItem(userName, JSON.stringify(existingShifts));
+            }
 
-document.getElementById("button").addEventListener("click", (e) => {
-  e.preventDefault();
-  const startDate = new Date(document.getElementById("startTime").value);
-  const endDate = new Date(document.getElementById("endTime").value);
-
-  var differenceInMillisecs = endDate - startDate;
-
-  if (differenceInMillisecs < 0) {
-    alert("End time must be after the start time!");
-  } else {
-    var differenceInMinutes = differenceInMillisecs / (1000 * 60);
-    differenceInMinutes = differenceInMinutes / 60;
-    var hours = Math.floor(differenceInMinutes);
-    var minutes = Math.round((differenceInMinutes - hours) * 60);
-    var result = Number(hours + "." + minutes);
-    var count = result;
-
-    if (count >= 12) {
-      count = result - 12;
-      shift = {
-        startDate: startDate,
-        OneHundredAndFiftyBonus: count,
-        OneHundredAndTwentyFiveBonus: 4,
-        regularHours: 8
-      };
-    } else if (count > 8 && count < 12) {
-      count = result - 8;
-      shift = {
-        startDate: startDate,
-        OneHundredAndFiftyBonus: 0,
-        OneHundredAndTwentyFiveBonus: count,
-        regularHours: 8
-      };
-    } else {
-      shift = {
-        startDate: startDate,
-        OneHundredAndFiftyBonus: 0,
-        OneHundredAndTwentyFiveBonus: 0,
-        regularHours: count
-      };
-    }
-
-    alert("The shift has been successfully added");
-
-    const userName = sessionStorage.getItem("userName");
-    const index = users.findIndex(function (e) {
-      return e.userName == userName;
-    });
-
-   // מבקש את המערך לפי שם המשתמש שלו
-    const existingShifts = JSON.parse(localStorage.getItem(userName)) || [];
-    // דוחף משמרת למערך משמרות לפי שם משתמש
-    existingShifts.push(shift);
-    // שומר באחסון מקומי על בסיס שם המשתמש
-    localStorage.setItem(userName, JSON.stringify(existingShifts));
-  }
-});
+        });
     </script>
 
 </body>

@@ -7,93 +7,276 @@
     <link rel="icon" type="image/png" href="4915051.png">
     <title>Shift Management</title>
 </head>
-        <style>
-            body {
-                background-image: url("https://images.pexels.com/photos/164005/pexels-photo-164005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
-                background-size: cover;
-                font-family: Arial, Helvetica, sans-serif;
-            }
+<style>
+    body {
+        background-image: url("https://images.pexels.com/photos/164005/pexels-photo-164005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+        background-size: cover;
+        font-family: Arial, Helvetica, sans-serif;
+    }
 
-            .container {
-                width: 820px;
-                margin: 0 auto;
-                background-color: #fff;
-                border-radius: 15px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                flex-direction: column;
-                top: 22px;
-                position: relative;
-                height: 0px;
-            }
+    .container {
+        width: 820px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+        top: 22px;
+        position: relative;
+        height: 0px;
+    }
 
-            a {
-                color: #ffffff;
-                width: auto;
-                height: 50%;
-                white-space: nowrap;
-                writing-mode: vertical-rl;
-                text-decoration: none;
+    a {
+        color: #ffffff;
+        width: auto;
+        height: 50%;
+        white-space: nowrap;
+        writing-mode: vertical-rl;
+        text-decoration: none;
 
-            }
+    }
 
-            button {
-                width: 160PX;
-                height: 649px;
-                border-style: hidden;
-                background-color: #122741;
-            }
+    button {
+        width: 160PX;
+        height: 649px;
+        border-style: hidden;
+        background-color: #122741;
+    }
 
-            #btnMyProfile:hover {
-                background-image: url('pexels-photo-7567557%20(1).jpeg');
-                background-size: cover;
-                background-size: cover;
-                background-repeat: no-repeat;
-            }
+    #btnMyProfile:hover {
+        background-image: url('pexels-photo-7567557%20(1).jpeg');
+        background-size: cover;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
 
-            #btnMyEmploymentProfile:hover {
-                background-image: url('pexels-photo-7567557.jpeg');
-                background-size: cover;
-                background-repeat: no-repeat;
-            }
+    #btnMyEmploymentProfile:hover {
+        background-image: url('pexels-photo-7567557.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
 
-            #btnUpdateShift:hover {
-                background-image: url('pexels-photo867574.jpeg');
-                background-size: cover;
-                background-repeat: no-repeat;
-            }
+    #btnUpdateShift:hover {
+        background-image: url('pexels-photo867574.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
 
-            #btnSalaryCalculation:hover {
-                background-image: url('pexels-photo-4386321.jpeg');
-                background-size: cover;
-                background-repeat: no-repeat;
-            }
+    }
 
-            #btnContactUS:hover {
-                background-image: url('pexels-photo-7319305.jpeg');
-                background-size: cover;
-                background-repeat: no-repeat;
-            }
+    #btnSalaryCalculation:hover {
+        background-image: url('pexels-photo-4386321.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    #btnContactUS:hover {
+        background-image: url('pexels-photo-7319305.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    #btnMyProfile:hover,
+    #btnMyEmploymentProfile:hover,
+    #btnUpdateShift:hover,
+    #btnSalaryCalculation:hover,
+    #btnContactUS:hover {
+        background-size: cover;
+        background-repeat: no-repeat;
+        transition: transform 0.3s;
+        /* הוספת אנימציה בעת העברת העכבר */
+
+        /* השניים הבאים יוסיפו את האפקט 3D */
+        transform: scale(1.05);
+        /* מגדיל את הכפתור ב-5% */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        /* הוספת צל לכפתור */
+    }
 
 
 
-            b {
-                position: fixed;
-                top: 50px;
-                font-size: 35px;
-            }
-        </style>
-    </head>
+
+    b {
+        position: fixed;
+        top: 50px;
+        font-size: 35px;
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200vh;
+    }
+
+    .button {
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        background-size: cover;
+        background-repeat: no-repeat;
+        perspective: 1000px;
+        transform-style: preserve-3d;
+
+    }
+
+    .button:hover {
+        transform: translateZ(50px) scale(1.05);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        margin: 1px;
+    }
+
+    img.avatar {
+        width: 150px;
+        border-radius: 50%;
+        position: relative;
+        top: -40px;
+        left: 124px;
+        min-width: 150px;
+            max-width: 150px;
+            max-height: 150px;
+            min-height: 150px;
+            height: auto;
+            display: block;
+    }
+
+    .modal {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 50%;
+        background-color: #ffffff;
+        place-items: center;
+        position: fixed;
+        height: auto + 20px;
+        position: relative;
+        top: -350px;
+        left: 202px;
+
+    }
+
+    #Notice {
+        position: relative;
+        left: 28%;
+        top: 0%;
+    }
+
+    #hrNotice {
+        position: relative;
+        width: 120px;
+        left: -2%;
+    }
+
+    #alert {
+        position: relative;
+        left: 5%;
+    }
+
+    #closeBtn {
+        width: auto;
+        padding: 12px 20px;
+        background-color: #122741;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        left: 36%;
+    }
+
+    #closeBtn:focus {
+        outline: none;
+    }
+
+    #name {
+        position: relative;
+        left: 30%;
+
+    }
+</style>
+</head>
 
 <body>
     <div class="container">
-        <button id="btnMyProfile"><a href=""><b>MY PROFILE</b></a></button>
-        <button id="btnMyEmploymentProfile"><a href=""><b>MY EMPLOYMENT PROFILE</b></a></button>
-        <button id="btnUpdateShift"><a href=""><b>UPDATE SHIFT</b></a></button>
-        <button id="btnSalaryCalculation"><a href=""><b>SALARY CALCULATION</b></a></button>
-        <button id="btnContactUS"><a href=""><b>CONTACT US</b></a></button>
+        <button id="btnMyProfile" class="button"><a><b>MY PROFILE</b></a></button>
+        <button id="btnMyEmploymentProfile" class="button"><a><b>MY EMPLOYMENT PROFILE</b></a></button>
+        <button id="btnUpdateShift" class="button"><a><b>UPDATE SHIFT</b></a></button>
+        <button id="btnSalaryCalculation" class="button"><a><b>SALARY CALCULATION</b></a></button>
+        <button id="btnContactUS" class="button"><a><b>CONTACT US</b></a></button>
+
+
+        <div id="editModal" style="display: block;" class="modal">
+            <br>
+            <h2 id="Notice">Hello</h2>
+            <h2 id="name"></h2>
+            <hr id="hrNotice">
+            <br>
+            <br><br>
+            <img src="img_avatar2.png" id="picture" alt="Avatar" class="avatar">
+        </div>
+
+
         <script>
             const users = JSON.parse(localStorage.getItem('data')) || [];
             const userName = sessionStorage.getItem("userName");
+            const index = users.findIndex(function (u) {
+                return userName == u.userName
+            })
+            var profileImage = document.getElementById("picture");
+            if (index > -1) {
+                profileImage.src = users[index].picture;
+            } else {
+                profileImage.src = "img_avatar2.png";
+            }
+
+           displayGreeting()
+            function displayGreeting() {
+                const now = new Date(); 
+                const hours = now.getHours(); 
+                if (hours >= 6 && hours < 12) {
+                    document.getElementById("Notice").innerHTML = "Good Morning";
+                } else if (hours >= 12 && hours < 18) {
+                    document.getElementById("Notice").innerHTML = "Good afternoon";
+                } else if (hours >= 18 && hours < 22) {
+                    document.getElementById("Notice").innerHTML = "Good Evening";
+                } else {
+                    document.getElementById("Notice").innerHTML = `&nbsp;&nbsp;` +  "Good Night";
+                }
+            }
+
+
+
+
+
+
+            displayAlert()
+            function displayAlert() {
+                document.getElementById("editModal").style.display = "block";
+                document.getElementById("name").innerHTML = users[index].firstName + " " + users[index].lastName
+                setTimeout(function () {
+                    document.getElementById("editModal").style.display = "none";
+                }, 2500);
+            }
+
+
+
+
+
+
             document.getElementById("btnMyProfile").addEventListener('click', () => {
                 window.location.href = "myProfile.html"
             })
